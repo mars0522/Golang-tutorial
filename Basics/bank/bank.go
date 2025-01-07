@@ -1,10 +1,20 @@
 package main
 
-import "fmt"
+import (
+	fileops "concurrency/Basics/bank/fileops"
+	"fmt"
+	"os"
+)
+
+const fileName = "balance.txt"
 
 func main() {
 
-	var accountBalance float64 = 5000.64
+	accountBalance, err := fileops.ReadFromFile(fileName)
+	if err != nil {
+		fmt.Printf("Error reading from file: %v\n", err)
+		os.Exit(1)
+	}
 	fmt.Println("Welcome to the Bank of Golang!")
 
 	for {
@@ -26,6 +36,7 @@ func main() {
 			if depositAmount > 0 {
 				accountBalance += depositAmount
 				fmt.Printf("Deposit successful. New balance: %.2f\n", accountBalance)
+				fileops.WriteBalanceToFile(accountBalance, fileName)
 			} else {
 				fmt.Println("Sorry, Invalid your money deposit.")
 			}
@@ -36,6 +47,7 @@ func main() {
 			if withdrawalAmount > 0 && withdrawalAmount <= accountBalance {
 				accountBalance -= withdrawalAmount
 				fmt.Printf("Withdrawal successful. New balance: %.2f\n", accountBalance)
+				fileops.WriteBalanceToFile(accountBalance, fileName)
 			} else {
 				fmt.Println("Sorry, Invalid your money withdrawal.")
 			}
