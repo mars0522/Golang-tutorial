@@ -12,11 +12,21 @@ type userInfo struct {
 	createdAt    time.Time
 }
 
-// This is go method
+// This is a go Method
 func (u *userInfo) PrintUserInfo() {
 	fmt.Println("firstName: ", u.firstName)
 	fmt.Println("lastName: ", u.userLastName)
 	fmt.Println("DOB: ", u.dob)
+}
+
+// This is a constructor function
+func newUser(fname, lname, dob string) *userInfo {
+	return &userInfo{
+		firstName:    fname,
+		userLastName: lname,
+		dob:          dob,
+		createdAt:    time.Now(),
+	}
 }
 
 func main() {
@@ -24,18 +34,21 @@ func main() {
 	userLastName := getUserData("Enter user last name: ")
 	DOB := getUserData("Enter user data of birth: ")
 
-	user := userInfo{
-		firstName:    userFirstName,
-		userLastName: userLastName,
-		dob:          DOB,
-		createdAt:    time.Now(),
-	}
+	// user := userInfo{
+	// 	firstName:    userFirstName,
+	// 	userLastName: userLastName,
+	// 	dob:          DOB,
+	// 	createdAt:    time.Now(),
+	// }
 
-	PrintUserInfo(&user)
-	user.PrintUserInfo()
+	user := newUser(userFirstName, userLastName, DOB)
+
+	PrintUserInfo(user)  // It's normal function to display the values of the structure
+	user.PrintUserInfo() // It's method to a structure to display elements of the structure
 
 }
 
+// structure passing as value(pass by value)
 func PrintUserInfo(user *userInfo) {
 	fmt.Printf("User Info:\n")
 	fmt.Printf("First Name: %s\n", user.firstName)
